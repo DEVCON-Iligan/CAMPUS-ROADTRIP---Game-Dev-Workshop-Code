@@ -54,10 +54,15 @@ function love.draw()
 
 end
 
+function love.keypressed(key)
+    Player:jump(key)
+end
+
 function beginContact(a, b, collision)
     Player:beginContact(a, b, collision)
 end
 
 function endContact(a, b, collision)
     Player:endContact(a, b, collision)
+    print("end Contact Start")
 end

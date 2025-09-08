@@ -10,14 +10,16 @@ function Player:load()
     self.height = 18
 
     self.xVel = 0
-    self.yVel = 100
+    self.yVel = 0
     self.gravity = 1500
 
     self.grounded = false
+    self.jumpAmount = -500
+    self.hasDoubleJump = false
 
     self.maxSpeed = 200
     self.acceleration = 4000
-    self.friction = 1000
+    self.friction = 1500
 
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, "dynamic")
@@ -57,11 +59,11 @@ function Player:move(dt)
             end
         end
     else
-        self: apllyFriction(dt)
+        self: applyFriction(dt)
     end
 end
 
-function Player:apllyFriction(dt)
+function Player:applyFriction(dt)
     if self.xVel > 0 then
         if self.xVel - self.friction * dt > 0 then 
             self.xVel = self.xVel - self.friction * dt
@@ -79,40 +81,62 @@ function Player:apllyFriction(dt)
     
 end
 
-function Player:beginContact(a, b, collision)
-    if self.grounded == true then return end
-
-    local nx, ny = collision:getNormal()
-
-    if a == self.physics.fixture then
-        if ny > 0 then
-            self:land()
-        end
-
-    elseif b == self.physics.fixture then
-        if ny < 0 then
-            self:land()
-        end
-    end
-    
-end
-
-function Player:land()
-    self.yVel = 0
-    self.grounded = true
-
-end
-
-function Player:endContact(a, b, collision)
-    
-end
-
 function Player:syncPhysics()
     -- self.x = self.physics.body:getX()
     -- self.y = self.physics.body:getY()
 
     self.x, self.y = self.physics.body:getPosition()
     self.physics.body:setLinearVelocity(self.xVel, self.yVel)
+end
+
+function Player:beginContact(a, b, collision)
+    if self.grounded == true then return end
+    local nx, ny = collision:getNormal()
+    if a == self.physics.fixture then
+      if ny > 0 then
+         self:land(collision)
+      end
+   elseif b == self.physics.fixture then
+      if ny < 0 then
+         self:land(collision)
+      end
+   end
+end
+
+function Player:land(collision)
+    self.currentGroundCollision = collision
+    self.yVel = 0
+    self.grounded = true
+    self.hasDoubleJump = true
+    print("player landed")
+
+end
+
+function Player:jump(key)
+    if (key == "w" or key == "up") then
+
+        if self.grounded then
+            self.yVel = self.jumpAmount
+            self.grounded = false
+        elseif self.hasDoubleJump then
+            self.hasDoubleJump = false
+            self.yVel = self.jumpAmount * 0.6
+        end
+
+        print("Player jumped")
+    end
+
+end
+
+function Player:endContact(a, b, collision)
+    print("player has left the ground")
+    if a == self.physics.fixture or b == self.physics.fixture then
+        if self.currentGroundCollision == collision then
+            self.grounded = false
+            print("Player touching ground")
+
+        end
+    end
 end
 
 function Player:draw()
