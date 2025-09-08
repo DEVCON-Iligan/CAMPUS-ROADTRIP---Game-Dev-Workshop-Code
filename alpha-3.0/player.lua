@@ -16,6 +16,8 @@ function Player:load()
     self.grounded = false
     self.jumpAmount = -500
     self.hasDoubleJump = false
+    self.graceTime = 0
+    self.graceDuration = 0.1
 
     self.maxSpeed = 200
     self.acceleration = 4000
@@ -29,11 +31,19 @@ function Player:load()
 end
 
 function Player:update(dt)
+    self:decreaseGraceTime(dt)
     self:syncPhysics()
     self:move(dt)
     self:applyGravity(dt)
     
 end
+
+function Player: decreaseGraceTime(dt)
+    if not self.grounded then
+        self.graceTime = self.graceTime - dt
+    end
+end
+
 
 function Player:applyGravity(dt)
     if not self.grounded then
@@ -108,6 +118,7 @@ function Player:land(collision)
     self.yVel = 0
     self.grounded = true
     self.hasDoubleJump = true
+    self.graceTime = self.graceDuration
     print("player landed")
 
 end
@@ -115,9 +126,10 @@ end
 function Player:jump(key)
     if (key == "w" or key == "up") then
 
-        if self.grounded then
+        if self.grounded or self.graceTime > 0 then
             self.yVel = self.jumpAmount
             self.grounded = false
+            self.graceTime = 0
         elseif self.hasDoubleJump then
             self.hasDoubleJump = false
             self.yVel = self.jumpAmount * 0.6
