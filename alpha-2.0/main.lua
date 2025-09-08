@@ -1,4 +1,5 @@
 local STI = require("sti")
+require("player")
 
 function love.load()
     -- 1
@@ -12,11 +13,17 @@ function love.load()
     -- 5
     background = love.graphics.newImage("assets/background/backdrop.png")
     background:setFilter("nearest", "nearest")
+
+    -- 7 
+    Player:load()
 end
 
 function love.update(dt)
     -- 4
     World:update(dt)
+
+    --8
+    Player:update(dt)
 
 end
 
@@ -39,6 +46,9 @@ function love.draw()
     -- Support scalling
     love.graphics.push()
     love.graphics.scale(2, 2)
+
+    Player:draw()
+
     love.graphics.pop()
 
 end
