@@ -7,6 +7,7 @@ function love.load()
 
     -- 3
     World = love.physics.newWorld( 0, 0 )
+    World: World:setCallbacks(beginContact, endContact)
     Map:box2d_init(World)
     Map.layers.solid.visible = false
 
@@ -50,5 +51,13 @@ function love.draw()
     Player:draw()
 
     love.graphics.pop()
+
+end
+
+function beginContact(a, b, collision)
+
+end
+
+function endContact(a, b, collision)
 
 end
