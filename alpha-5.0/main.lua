@@ -4,6 +4,8 @@ local Coin = require("coin")
 local GUI = require("gui")
 love.graphics.setDefaultFilter("nearest", "nearest")
 local Spike = require("spike")
+local Camera = require("camera")
+local Stone = require("stone")
 
 local time = 0
 local floatSpeed = 0.5      -- how fast it moves
@@ -12,10 +14,12 @@ local floatAmount = 10    -- how many pixels up/down
 function love.load()
     Map = STI("map/2.lua", {"box2d"})
 
-    World = love.physics.newWorld( 0, 0 )
+    World = love.physics.newWorld( 0, 5000)
     World:setCallbacks(beginContact, endContact)
     Map:box2d_init(World)
     Map.layers.solid.visible = false
+    Map.layers.entity.visible = false
+    MapWidth = Map.layers.ground.width * 16
 
     background = love.graphics.newImage("assets/background/backdrop.png")
 
@@ -23,13 +27,17 @@ function love.load()
     Coin:loadAssets()
     GUI:load()
 
-    Coin.new(300, 100)
-    Coin.new(400, 200)
-    Coin.new(500, 100)
+    spawnEntities()
 
-    Spike.new(175, 189)
-    Spike.new(195, 189)
-    Spike.new(215, 189)
+    -- Coin.new(300, 100)
+    -- Coin.new(400, 200)
+    -- Coin.new(500, 100)
+
+    -- Spike.new(175, 189)
+    -- Spike.new(195, 189)
+    -- Spike.new(215, 189)
+
+    -- Stone.new(800, 200)
 end
 
 function love.update(dt)
@@ -38,23 +46,26 @@ function love.update(dt)
     Player:update(dt)
     Coin.updateAll(dt)
     Spike.updateAll(dt)
+    Stone.updateAll(dt)
     GUI:update(dt)
+    Camera:setPos(Player.x, 0)
 end
 
 function love.draw()
     local x, y, sx, sy = love.animateBackground()
 
     love.graphics.draw(background, x, y, 0, sx, sy)
-    Map:draw(0, 0, 2, 2)
+    Map:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
 
-    love.graphics.push()
-    love.graphics.scale(2, 2)
+    Camera:apply()
 
     Player:draw()
     Coin.drawAll()
     Spike.drawAll(dt)
+    Stone.drawAll(dt)
 
-    love.graphics.pop()
+    Camera:clear()
+    
     GUI:draw()
 end
 
@@ -86,3 +97,16 @@ function endContact(a, b, collision)
     Player:endContact(a, b, collision)
     print("end Contact Start")
 end
+
+function spawnEntities()
+    for i, v in ipairs(Map.layers.entity.objects) do
+        if v.type == "spikes" then
+            Spike.new(v.x + v.width / 2, v.y  + v.height / 2)
+        elseif v.type == "stone" then
+            Stone.new(v.x + v.width / 2, v.y  + v.height / 2)
+        elseif v.type == "coin" then
+            Coin.new(v.x, v.y)
+
+        end
+    end 
+end 

@@ -2,7 +2,7 @@ local Player = {}
 
 function Player:load()
     self.x = 100
-    self.y = 0
+    self.y = 100
 
     self.startX = self.x
     self.startY = self.y
@@ -25,7 +25,7 @@ function Player:load()
     self.alive = true
 
     self.grounded = false
-    self.jumpAmount = -500
+    self.jumpAmount = -370
     self.hasDoubleJump = false
     self.graceTime = 0
     self.graceDuration = 0.1
@@ -46,6 +46,8 @@ function Player:load()
     self.physics.body:setFixedRotation(true)
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
+
+    self.physics.body:setGravityScale(0)
 
     -- self:takeDamage(1)
 end
