@@ -14,6 +14,13 @@ function Player:load()
     self.yVel = 0
     self.gravity = 1500
 
+    self.color =  {
+        red = 1,
+        green = 1,
+        blue = 1,
+        speed = 300
+    }
+
     self.health = {current = 3, max = 3}
     self.alive = true
 
@@ -40,6 +47,7 @@ function Player:load()
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 
+    -- self:takeDamage(1)
 end
 
 -- Player Death Logic
@@ -47,6 +55,7 @@ end
 function Player:takeDamage(amount)
     if self.health.current - amount > 0  then 
         self.health.current = self.health.current - amount
+        self:tintRed()
         print("Player has recieved damage " ..self.health.current)
     else
         self.health.current = 0
@@ -70,7 +79,6 @@ function Player:respawn()
 end
 
 
-
 function Player:loadAssets()
     self.animation = {timer = 0, rate = 0.1}
     self.animation.run = {total = 6, current = 1, img={}}
@@ -88,11 +96,21 @@ function Player:loadAssets()
         self.animation.air.img[i] = love.graphics.newImage("assets/player/air/"..i..".png")
     end
 
+    self.animation.hurt = {total = 2, current = 1, img={}}
+    for i=1, self.animation.hurt.total do
+        self.animation.hurt.img[i] = love.graphics.newImage("assets/player/hurt/"..i..".png")
+    end
+
     self.animation.draw = self.animation.idle.img[1]
     self.animation.width = self.animation.draw:getWidth()
     self.animation.height = self.animation.draw:getHeight()
 
 
+end
+
+function Player:tintRed()
+    self.color.green = 0
+    self.color.blue = 0
 end
 
 function Player:incrementCoins()
@@ -101,6 +119,7 @@ function Player:incrementCoins()
 end
 
 function Player:update(dt)
+    self:unTint(dt)
     self:respawn()
     self:setState()
     self:setDirection()
@@ -110,6 +129,12 @@ function Player:update(dt)
     self:move(dt)
     self:applyGravity(dt)
     
+end
+
+function Player:unTint(dt)
+    self.color.red = math.min(self.color.red + self.color.speed * dt, 1)
+    self.color.green = math.min(self.color.red + self.color.speed * dt, 1)
+    self.color.blue = math.min(self.color.red + self.color.speed * dt, 1)
 end
 
 function Player:setState()
@@ -255,5 +280,9 @@ function Player:draw()
     if self.direction == "left" then 
         scaleX = -1
     end
+
+    love.graphics.setColor(self.color.red, self.color.green, self.color.blue )
     love.graphics.draw(self.animation.draw, self.x, self.y, 0, scaleX, 1, self.animation.width / 2, (self.animation.height + 12) / 2)
+
+    love.graphics.setColor(1, 1, 1, 1)
 end

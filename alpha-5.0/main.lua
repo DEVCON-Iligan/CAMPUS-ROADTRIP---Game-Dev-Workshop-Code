@@ -3,6 +3,7 @@ require("player")
 require("coin")
 require("gui")
 love.graphics.setDefaultFilter("nearest", "nearest")
+require("spike")
 
 local time = 0
 local floatSpeed = 0.5      -- how fast it moves
@@ -25,6 +26,10 @@ function love.load()
     Coin.new(300, 100)
     Coin.new(400, 200)
     Coin.new(500, 100)
+
+    Spike.new(175, 189)
+    Spike.new(195, 189)
+    Spike.new(215, 189)
 end
 
 function love.update(dt)
@@ -32,6 +37,7 @@ function love.update(dt)
     World:update(dt)
     Player:update(dt)
     Coin.updateAll(dt)
+    Spike.updateAll(dt)
     GUI:update(dt)
 end
 
@@ -46,6 +52,7 @@ function love.draw()
 
     Player:draw()
     Coin.drawAll()
+    Spike.drawAll(dt)
 
     love.graphics.pop()
     GUI:draw()
@@ -71,6 +78,7 @@ end
 
 function beginContact(a, b, collision)
     if Coin.beginContact(a, b, collision) then return end
+    if Spike.beginContact(a, b, collision) then return end
     Player:beginContact(a, b, collision)
 end
 

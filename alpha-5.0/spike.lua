@@ -1,8 +1,8 @@
-Spike = {img = love.graphics.newImage("assets/spikes")}
+Spike = {img = love.graphics.newImage("assets/spikes.png")}
 Spike.__index =  Spike
 
-Spike.width = instance.img:getWidth()
-Spike.height = instance.img:getHeight()
+Spike.width = Spike.img:getWidth()
+Spike.height = Spike.img:getHeight()
 
 ActiveSpikes = {}
 
@@ -10,6 +10,8 @@ function Spike.new(x, y)
     local instance = setmetatable({}, Spike)
     instance.x = x
     instance.y = y
+
+    instance.damage = 1
 
     instance.physics = {}
     instance.physics.body = love.physics.newBody(World, instance.x, instance.y, "static")
@@ -51,6 +53,7 @@ function Spike.beginContact(a, b, collision)
     for i, instance in ipairs(ActiveSpikes) do
         if a == instance.physics.fixture or b == instance.physics.fixture then
             if a== Player.physics.fixture or b == Player.physics.fixture then
+                Player:takeDamage(instance.damage)
                 return true
             end
         end

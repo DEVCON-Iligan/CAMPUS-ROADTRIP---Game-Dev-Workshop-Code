@@ -34,8 +34,10 @@ end
 function GUI:displayHearts()
     for i = 1, Player.health.current do
         local x = self.hearts.x + self.hearts.spacing * i
-        print(x)
 
+        love.graphics.setColor(0, 0, 0, 0.8)
+        love.graphics.draw(self.hearts.img, x + 2, self.hearts.y + 2, 0, self.hearts.scale, self.hearts.scale)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(self.hearts.img, x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
     end
 end
