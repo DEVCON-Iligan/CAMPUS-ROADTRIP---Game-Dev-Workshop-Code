@@ -1,7 +1,5 @@
 Player = {}
 
--- remember player contact
-
 function Player:load()
     self.x = 100
     self.y = 0
@@ -25,6 +23,8 @@ function Player:load()
     self.maxSpeed = 200
     self.acceleration = 4000
     self.friction = 1500
+
+    self.coins = 0
 
     self:loadAssets()
 
@@ -57,6 +57,11 @@ function Player:loadAssets()
     self.animation.height = self.animation.draw:getHeight()
 end
 
+function Player:incrementCoins()
+    self.coins = self.coins + 1
+
+end
+
 function Player:update(dt)
     self:setState()
     self:setDirection()
@@ -76,7 +81,7 @@ function Player:setState()
     else
         self.state = "run"
     end
-    print(self.state)
+    -- print(self.state)
 end
 
 function Player:setDirection()
@@ -170,7 +175,7 @@ function Player:land(collision)
     self.grounded = true
     self.hasDoubleJump = true
     self.graceTime = self.graceDuration
-    print("player landed")
+    -- print("player landed")
 
 end
 

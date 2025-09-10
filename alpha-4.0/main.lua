@@ -18,46 +18,47 @@ function love.load()
     background = love.graphics.newImage("assets/background/backdrop.png")
 
     Player:load()
+    Coin:loadAssets()
 
-    coin1 = Coin.new(300, 200)
-    coin2 = Coin.new(400, 200)
-    coin3 = Coin.new(500, 100)
+    Coin.new(300, 100)
+    Coin.new(400, 200)
+    Coin.new(500, 100)
 end
 
 function love.update(dt)
     time = time + dt
     World:update(dt)
-
     Player:update(dt)
-
+    Coin.updateAll(dt)
 end
 
 function love.draw()
-    local winW, winH = love.graphics.getWidth(), love.graphics.getHeight()
-    local imgW, imgH = background:getWidth(), background:getHeight()
-
-    local sx = winW / imgW  -- scale so image width matches window
-    local sy = sx   -- keep aspect ratio
-
-    local x = 0
-    
-    local baseY = (winH - imgH * sy) / 2
-    local y = baseY + math.sin(time * floatSpeed) * floatAmount
+    local x, y, sx, sy = love.animateBackground()
 
     love.graphics.draw(background, x, y, 0, sx, sy)
-
     Map:draw(0, 0, 2, 2)
 
     love.graphics.push()
     love.graphics.scale(2, 2)
 
     Player:draw()
-    coin1:draw()
-    coin2:draw()
-    coin3:draw()
+    Coin.drawAll()
 
     love.graphics.pop()
+end
 
+function love.animateBackground()
+    local winW, winH = love.graphics.getWidth(), love.graphics.getHeight()
+    local imgW, imgH = background:getWidth(), background:getHeight()
+
+    local sx = winW / imgW  -- scale so image width matches window
+    local sy = sx           -- keep aspect ratio
+
+    local x = 0
+    local baseY = (winH - imgH * sy) / 2
+    local y = baseY + math.sin(time * floatSpeed) * floatAmount
+
+    return x, y, sx, sy
 end
 
 function love.keypressed(key)
@@ -65,6 +66,7 @@ function love.keypressed(key)
 end
 
 function beginContact(a, b, collision)
+    if Coin.beginContact(a, b, collision) then return end
     Player:beginContact(a, b, collision)
 end
 
