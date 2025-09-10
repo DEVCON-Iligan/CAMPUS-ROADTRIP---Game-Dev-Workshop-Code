@@ -1,6 +1,7 @@
 local STI = require("sti")
 require("player")
 require("coin")
+require("gui")
 love.graphics.setDefaultFilter("nearest", "nearest")
 
 local time = 0
@@ -19,6 +20,7 @@ function love.load()
 
     Player:load()
     Coin:loadAssets()
+    GUI:load()
 
     Coin.new(300, 100)
     Coin.new(400, 200)
@@ -30,6 +32,7 @@ function love.update(dt)
     World:update(dt)
     Player:update(dt)
     Coin.updateAll(dt)
+    GUI:update(dt)
 end
 
 function love.draw()
@@ -45,6 +48,7 @@ function love.draw()
     Coin.drawAll()
 
     love.graphics.pop()
+    GUI:draw()
 end
 
 function love.animateBackground()
