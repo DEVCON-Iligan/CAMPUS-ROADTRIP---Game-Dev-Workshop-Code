@@ -62,4 +62,4 @@ function Spike.beginContact(a, b, collision)
     end
 end
 
-retrun Spike
+return Spike

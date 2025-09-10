@@ -10,7 +10,7 @@ local floatSpeed = 0.5      -- how fast it moves
 local floatAmount = 10    -- how many pixels up/down
 
 function love.load()
-    Map = STI("map/1.lua", {"box2d"})
+    Map = STI("map/2.lua", {"box2d"})
 
     World = love.physics.newWorld( 0, 0 )
     World:setCallbacks(beginContact, endContact)
