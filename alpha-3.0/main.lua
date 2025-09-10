@@ -2,6 +2,10 @@ local STI = require("sti")
 require("player")
 love.graphics.setDefaultFilter("nearest", "nearest")
 
+local time = 0
+local floatSpeed = 0.5      -- how fast it moves
+local floatAmount = 10    -- how many pixels up/down
+
 function love.load()
     -- 1
     Map = STI("map/1.lua", {"box2d"})
@@ -20,6 +24,7 @@ function love.load()
 end
 
 function love.update(dt)
+    time = time + dt
     -- 4
     World:update(dt)
 
@@ -37,7 +42,10 @@ function love.draw()
     local sy = sx   -- keep aspect ratio
 
     local x = 0
-    local y = (winH - imgH * sy) / 2  -- center vertically (can be 0 to align top)
+    
+    local baseY = (winH - imgH * sy) / 2
+    -- add sine wave offset
+    local y = baseY + math.sin(time * floatSpeed) * floatAmount
 
     love.graphics.draw(background, x, y, 0, sx, sy)
 
