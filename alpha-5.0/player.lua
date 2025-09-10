@@ -40,8 +40,6 @@ function Player:load()
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 
-    self:takeDamage(1)
-    self:takeDamage(2)
 end
 
 -- Player Death Logic
@@ -60,9 +58,16 @@ end
 
 function Player:die()
     print("You are dead LMAO")
+    self.alive = false
 end
 
-
+function Player:respawn()
+    if not self.alive then
+        self.physics.body:setPosition(self.startX, self.startY)
+        self.health.current = self.health.max
+        self.alive = true
+    end
+end
 
 
 
@@ -96,6 +101,7 @@ function Player:incrementCoins()
 end
 
 function Player:update(dt)
+    self:respawn()
     self:setState()
     self:setDirection()
     self:animate(dt)
