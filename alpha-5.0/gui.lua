@@ -14,7 +14,7 @@ function GUI:load()
     self.hearts.width = self.hearts.img:getWidth()
     self.hearts.height = self.hearts.img:getHeight()
     self.hearts.x = 0
-    self.hearts.y = 30
+    self.hearts.y = 50
     self.hearts.scale = 3
     self.hearts.spacing = self.hearts.width * self.hearts.scale + 30
 
@@ -28,7 +28,7 @@ end
 function GUI:draw()
     self:displayCoins()
     self:displayCoinText()
-    self.displayHearts()
+    self:displayHearts()
 end
 
 function GUI:displayHearts()
@@ -36,7 +36,7 @@ function GUI:displayHearts()
         local x = self.hearts.x + self.hearts.spacing * i
         print(x)
 
-        -- love.graphics.draw(self.hearts.img, x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
+        love.graphics.draw(self.hearts.img, x, self.hearts.y, 0, self.hearts.scale, self.hearts.scale)
     end
 end
  
