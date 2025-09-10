@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="27">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="32">
  <editorsettings>
   <export target="../1.lua" format="lua"/>
  </editorsettings>
@@ -137,18 +137,6 @@
    </properties>
    <polygon points="0,0 35.6667,-18 51.6667,-33.3333 51.6667,-49 67,-65 68,-97.6667 83.3333,-111.151 69.5758,-144.985 100,-146 99.3333,0.333333"/>
   </object>
-  <object id="17" x="80.3716" y="242.875">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="-0.311111,0.155556 4.75961,-2.86111 42.7438,-2.95652 47.5676,0.125 47.7534,6.75 39.6757,13.125 7.70608,13.1556 -0.371622,6.875"/>
-  </object>
-  <object id="18" x="160" y="195.375">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="0,0 5.125,-3.125 58.875,-3.5 63.75,-0.375 63.875,6.375 55.875,12.375 46.75,12.625 46.125,20.375 40,22.25 39.75,25.625 32.625,28.5 31,28.5 24.375,25.5 23.75,22.375 17.75,20.25 16.875,12.625 8.125,12.375 0.125,6.375"/>
-  </object>
   <object id="20" x="-9.70076" y="12.8712" width="10" height="350.75">
    <properties>
     <property name="collidable" type="bool" value="true"/>
@@ -177,17 +165,10 @@
    </properties>
    <polygon points="0,0 5.125,-3.125 58.875,-3.5 63.75,-0.375 63.875,6.375 55.875,12.375 46.75,12.625 46.125,20.375 40,22.25 39.75,25.625 32.625,28.5 31,28.5 24.375,25.5 23.75,22.375 17.75,20.25 16.875,12.625 8.125,12.375 0.125,6.375"/>
   </object>
-  <object id="25" x="272.355" y="178.864">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="-0.311111,0.155556 4.75961,-2.86111 42.7438,-2.95652 47.5676,0.125 47.7534,6.75 39.6757,13.125 7.70608,13.1556 -0.371622,6.875"/>
-  </object>
-  <object id="26" x="336.313" y="211.063">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="-0.311111,0.155556 4.75961,-2.86111 42.7438,-2.95652 47.5676,0.125 47.7534,6.75 39.6757,13.125 7.70608,13.1556 -0.371622,6.875"/>
-  </object>
+  <object id="27" x="160" y="192" width="64.125" height="15.875"/>
+  <object id="28" x="176" y="207.625" width="31.75" height="16.125"/>
+  <object id="29" x="80" y="240" width="48" height="15.875"/>
+  <object id="30" x="335.875" y="208" width="48.125" height="16"/>
+  <object id="31" x="272.125" y="175.875" width="47.625" height="16"/>
  </objectgroup>
 </map>

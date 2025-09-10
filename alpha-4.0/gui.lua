@@ -8,18 +8,35 @@ function GUI:load()
     self.coins.scale = 3
     self.coins.x = 50
     self.coins.y = 50
+    self.font = love.graphics.newFont("assets/bitt-3.ttf", 32)
 end
 
 function GUI:update()
-    
+
 end
 
 function GUI:draw()
     self:displayCoins()
+    self:displayCoinText()
 
 end
  
 function GUI:displayCoins()
+    love.graphics.setColor(0, 0, 0, 0.5)
+    love.graphics.draw(self.coins.img, self.coins.x + 2, self.coins.y + 2, 0, self.coins.scale, self.coins.scale)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(self.coins.img, self.coins.x, self.coins.y, 0, self.coins.scale, self.coins.scale)
+end
+
+function GUI:displayCoinText()
+    love.graphics.setFont(self.font)
+
+    local x = self.coins.x + self.coins.width * self.coins.scale
+    local y = self.coins.y + (self.coins.height / 2) * self.coins.scale - (self.font:getHeight() / 2)
+    
+    love.graphics.setColor(0, 0, 0, 0.8)
+    love.graphics.print(":" ..Player.coins, x + 2,y + 2)
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print(":" ..Player.coins, x,y)
 
 end
