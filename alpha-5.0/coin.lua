@@ -1,5 +1,9 @@
-Coin = {}
+Coin = {img = love.graphics.newImage("assets/gem/gem-1.png")}
 Coin.__index =  Coin
+
+Coin.width = Coin.img:getWidth()
+Coin.height = Coin.img:getHeight()
+
 ActiveCoins = {}
 
 function Coin.new(x, y)
@@ -7,10 +11,7 @@ function Coin.new(x, y)
     
     instance.x = x
     instance.y = y
-    instance.img = love.graphics.newImage("assets/gem/gem-1.png")
 
-    instance.width = instance.img:getWidth()
-    instance.height = instance.img:getHeight()
     instance.scaleX = 1
 
     instance.randomTimeOffset = math.random(0, 100)

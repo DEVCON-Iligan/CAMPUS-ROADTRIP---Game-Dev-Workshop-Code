@@ -4,12 +4,18 @@ function Player:load()
     self.x = 100
     self.y = 0
 
+    self.startX = self.x
+    self.startY = self.y
+
     self.width = 15
     self.height = 18
 
     self.xVel = 0
     self.yVel = 0
     self.gravity = 1500
+
+    self.health = {current = 3, max = 3}
+    self.alive = true
 
     self.grounded = false
     self.jumpAmount = -500
@@ -33,7 +39,32 @@ function Player:load()
     self.physics.body:setFixedRotation(true)
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
+
+    self:takeDamage(1)
+    self:takeDamage(2)
 end
+
+-- Player Death Logic
+
+function Player:takeDamage(amount)
+    if self.health.current - amount > 0  then 
+        self.health.current = self.health.current - amount
+        print("Player has recieved damage " ..self.health.current)
+    else
+        self.health.current = 0
+        self:die()
+    end 
+    
+    print("Player Health " ..self.health.current)
+end
+
+function Player:die()
+    print("You are dead LMAO")
+end
+
+
+
+
 
 function Player:loadAssets()
     self.animation = {timer = 0, rate = 0.1}
@@ -55,6 +86,8 @@ function Player:loadAssets()
     self.animation.draw = self.animation.idle.img[1]
     self.animation.width = self.animation.draw:getWidth()
     self.animation.height = self.animation.draw:getHeight()
+
+
 end
 
 function Player:incrementCoins()
