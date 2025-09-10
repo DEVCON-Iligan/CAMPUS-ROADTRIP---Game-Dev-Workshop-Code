@@ -52,10 +52,22 @@ end
 
 -- Player Death Logic
 
-function Player:takeDamage(amount)
+function Player:takeDamage(amount, knockbackDir)
     if self.health.current - amount > 0  then 
         self.health.current = self.health.current - amount
         self:tintRed()
+
+        self.yVel = -400
+        self.grounded = false
+
+        if knockbackDir then
+            self.xVel = 300 * knockbackDir
+        end
+
+        self.state = "hurt"
+
+        self.hurtTimer = 0.4
+
         print("Player has recieved damage " ..self.health.current)
     else
         self.health.current = 0
@@ -121,7 +133,7 @@ end
 function Player:update(dt)
     self:unTint(dt)
     self:respawn()
-    self:setState()
+    self:setAnimationState(dt)
     self:setDirection()
     self:animate(dt)
     self:decreaseGraceTime(dt)
@@ -130,6 +142,18 @@ function Player:update(dt)
     self:applyGravity(dt)
     
 end
+
+function Player:setAnimationState(dt)
+    if self.state == "hurt" then
+        self.hurtTimer = self.hurtTimer - dt
+        if self.hurtTimer <= 0 then
+            self.state = "idle"
+        end 
+    else
+        self:setState()
+    end
+end
+
 
 function Player:unTint(dt)
     self.color.red = math.min(self.color.red + self.color.speed * dt, 1)
