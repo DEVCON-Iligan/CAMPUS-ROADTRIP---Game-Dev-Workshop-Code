@@ -1,10 +1,12 @@
-Coin = {img = love.graphics.newImage("assets/gem/gem-1.png")}
+local Player = require("player")
+
+local Coin = {img = love.graphics.newImage("assets/gem/gem-1.png")}
 Coin.__index =  Coin
 
 Coin.width = Coin.img:getWidth()
 Coin.height = Coin.img:getHeight()
 
-ActiveCoins = {}
+local ActiveCoins = {}
 
 function Coin.new(x, y)
     local instance = setmetatable({}, Coin)
@@ -115,3 +117,5 @@ function Coin.beginContact(a, b, collision)
         end
     end
 end
+
+return Coin

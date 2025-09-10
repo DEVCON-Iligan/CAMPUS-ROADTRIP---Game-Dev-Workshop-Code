@@ -1,4 +1,4 @@
-Player = {}
+local Player = {}
 
 function Player:load()
     self.x = 100
@@ -18,7 +18,7 @@ function Player:load()
         red = 1,
         green = 1,
         blue = 1,
-        speed = 300
+        speed = 3
     }
 
     self.health = {current = 3, max = 3}
@@ -310,3 +310,5 @@ function Player:draw()
 
     love.graphics.setColor(1, 1, 1, 1)
 end
+
+return Player

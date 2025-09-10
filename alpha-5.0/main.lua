@@ -1,9 +1,9 @@
 local STI = require("sti")
-require("player")
-require("coin")
-require("gui")
+local Player = require("player")
+local Coin = require("coin")
+local GUI = require("gui")
 love.graphics.setDefaultFilter("nearest", "nearest")
-require("spike")
+local Spike = require("spike")
 
 local time = 0
 local floatSpeed = 0.5      -- how fast it moves

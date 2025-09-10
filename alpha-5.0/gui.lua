@@ -1,4 +1,6 @@
-GUI = {}
+local Player = require("player")
+
+local GUI = {}
 
 function GUI:load()
     self.coins = {}
@@ -61,3 +63,5 @@ function GUI:displayCoinText()
     love.graphics.print(":" ..Player.coins, x,y)
 
 end
+
+return GUI
