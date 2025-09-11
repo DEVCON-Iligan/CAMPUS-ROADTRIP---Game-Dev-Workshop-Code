@@ -6,6 +6,7 @@ love.graphics.setDefaultFilter("nearest", "nearest")
 local Spike = require("spike")
 local Camera = require("camera")
 local Stone = require("stone")
+local Enemy = require("enemy")
 
 local time = 0
 local floatSpeed = 0.5      -- how fast it moves
@@ -26,6 +27,7 @@ function love.load()
     Player:load()
     Coin:loadAssets()
     GUI:load()
+    Enemy.loadAssets()
 
     spawnEntities()
 
@@ -47,6 +49,7 @@ function love.update(dt)
     Coin.updateAll(dt)
     Spike.updateAll(dt)
     Stone.updateAll(dt)
+    Enemy.updateAll(dt)
     GUI:update(dt)
     Camera:setPos(Player.x, 0)
 end
@@ -63,6 +66,7 @@ function love.draw()
     Coin.drawAll()
     Spike.drawAll(dt)
     Stone.drawAll(dt)
+    Enemy.drawAll(dt)
 
     Camera:clear()
     
@@ -90,6 +94,7 @@ end
 function beginContact(a, b, collision)
     if Coin.beginContact(a, b, collision) then return end
     if Spike.beginContact(a, b, collision) then return end
+    Enemy.beginContact(a, b, collision)
     Player:beginContact(a, b, collision)
 end
 
@@ -104,6 +109,8 @@ function spawnEntities()
             Spike.new(v.x + v.width / 2, v.y  + v.height / 2)
         elseif v.type == "stone" then
             Stone.new(v.x + v.width / 2, v.y  + v.height / 2)
+        elseif v.type == "enemy" then
+            Enemy.new(v.x + v.width / 2, v.y  + v.height / 2)
         elseif v.type == "coin" then
             Coin.new(v.x, v.y)
 

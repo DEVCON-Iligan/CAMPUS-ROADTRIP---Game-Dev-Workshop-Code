@@ -59,11 +59,11 @@ function Player:takeDamage(amount, knockbackDir)
         self.health.current = self.health.current - amount
         self:tintRed()
 
-        self.yVel = -400
+        self.yVel = -600 -- knock back force
         self.grounded = false
 
         if knockbackDir then
-            self.xVel = 300 * knockbackDir
+            self.xVel = 500 * knockbackDir
         end
 
         self.state = "hurt"
